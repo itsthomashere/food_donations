@@ -39,7 +39,7 @@ def main():
     st.write(menu)
     pages["Donations"]
 
-    pages[menu]
+    st.write(pages[menu])
 
 
 def access_donations():
