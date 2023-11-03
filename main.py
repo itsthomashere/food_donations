@@ -37,8 +37,9 @@ def main():
         "Dataset": view_dataset,
     }
     st.write(menu)
+    pages["Donations"]
 
-    pages[menu]()
+    pages[menu]
 
 
 def access_donations():
