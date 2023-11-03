@@ -5,6 +5,33 @@ import pandas as pd
 from sqlalchemy import create_engine, engine
 
 
+def create_connection_config() -> dict[str, str]:
+    """Creates and returns a database connection configuration."""
+    return {
+        'dialect': 'postgresql',
+        'username': 'postgres',
+        'password': 'be_happy_and_creative',
+        'host': '159.65.239.177',
+        'port': '5432',
+        'database': 'postgres'
+    }
+
+
+def create_connection_url(connection_config: dict[str, str]) -> str:
+    """Creates and returns a connection URL based on the given connection configuration."""
+    return (
+        f"{connection_config['dialect']}://"
+        f"{connection_config['username']}:{connection_config['password']}@"
+        f"{connection_config['host']}:{connection_config['port']}/"
+        f"{connection_config['database']}"
+    )
+
+
+def create_db_engine(connection_url: str) -> engine.base.Engine:
+    """Creates and returns a SQLAlchemy engine based on the given connection URL."""
+    return create_engine(connection_url)
+
+
 def fetch_data(query: str, engine: engine.base.Engine) -> pd.DataFrame:
     """Fetches data using SQL query and returns a DataFrame."""
     with engine.connect() as connection:
@@ -66,8 +93,17 @@ def view_dataset():
     ORDER BY product_code;
     """
     st.title("Woolworths Dataset:")
-    fetch_data(query)
+    fetch_data(query, engine)
 
 
 if __name__ == "__main__":
+    # Create a connection config
+    config = create_connection_config()
+
+    # Create a connection URL from the config
+    url = create_connection_url(config)
+
+    # Create an engine using the connection URL
+    engine = create_db_engine(url)
+
     main()
