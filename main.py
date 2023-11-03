@@ -53,12 +53,20 @@ def access_donations():
     st.title("Donations Received Today:")
 
 
+
 def receive_barcodes():
     st.text_input("Enter barcode:")
 
 
 def view_dataset():
+    query = """
+    SELECT *
+    FROM dataset
+    GROUP BY category
+    ORDER BY product_code;
+    """
     st.title("Woolworths Dataset:")
+    fetch_data(query)
 
 
 if __name__ == "__main__":
