@@ -1,6 +1,15 @@
 from typing import Callable
 import streamlit as st
 from streamlit_option_menu import option_menu
+import pandas as pd
+from sqlalchemy import create_engine, engine
+
+
+def fetch_data(query: str, engine: engine.base.Engine) -> pd.DataFrame:
+    """Fetches data using SQL query and returns a DataFrame."""
+    with engine.connect() as connection:
+        result = pd.read_sql(query, connection)
+    return result
 
 
 def page_setup(page_title: str, layout: str) -> None:
@@ -38,7 +47,6 @@ def main():
         "Dataset": view_dataset,
     }
     pages[menu]()
-
 
 
 def access_donations():
