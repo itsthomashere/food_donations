@@ -1,3 +1,4 @@
+from typing import Callable
 import streamlit as st
 from streamlit_option_menu import option_menu
 
@@ -31,15 +32,13 @@ def main():
         styles=None,
     )
 
-    pages = {
+    pages: dict[str, Callable] = {
         "Donations": access_donations,
         "Barcode Scanner": receive_barcodes,
         "Dataset": view_dataset,
     }
-    st.write(menu)
-    pages["Donations"]
+    pages[menu]()
 
-    st.write(pages[menu])
 
 
 def access_donations():
